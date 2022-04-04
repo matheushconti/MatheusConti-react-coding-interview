@@ -1,9 +1,9 @@
 import Axios from 'axios';
-
 import { CompanyData, PeopleData } from '../../constants/types';
-import { transformPerson, transformCompany } from './transformers';
-import { APIGetCompanyHistory, APIGetPeopleType } from './api.types';
+import { APIGetCompanyHistory } from './api.types';
 import server from './server';
+import { transformCompany } from './transformers';
+
 
 const AxiosInstance = Axios.create({
   baseURL: 'https://fakerapi.it/api/v1',

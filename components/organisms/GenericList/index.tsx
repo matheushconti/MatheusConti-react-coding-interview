@@ -1,5 +1,5 @@
-import React from 'react';
 import { List } from 'antd';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
@@ -36,8 +36,8 @@ const GenericList = <T extends Item>({
 }: GenericListProps<T>) => (
   <Container>
     <InfiniteScroll
-      initialLoad={false}
-      pageStart={0}
+      initialLoad={true}
+      pageStart={1}
       loadMore={handleLoadMore}
       hasMore={!loading && hasMore}
       useWindow={false}

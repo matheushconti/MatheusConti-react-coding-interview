@@ -1,10 +1,8 @@
 import { useCallback, useState } from 'react';
-
 import APIClient from '../../services/APIClient';
 import { usePeopleContext } from '../contexts/People.context';
 
 export const usePeople = () => {
-  const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const peopleData = usePeopleContext();
@@ -17,13 +15,12 @@ export const usePeople = () => {
       try {
         const { data, totalItems } = await APIClient.getPeopleInfo({
           quantity: size,
-          page: currentPage,
+          page: peopleData.currentPage,
         });
-        setCurrentPage(currentPage + 1);
-        if (peopleData.initialized) peopleData.append(data, totalItems);
-        else peopleData.initialize(data, totalItems);
+        if (peopleData.initialized)
+          peopleData.append(data, peopleData.currentPage + 1, totalItems);
+        else peopleData.initialize(data, peopleData.currentPage + 1, totalItems);
       } catch (err) {
-        setCurrentPage(0);
         setError(error);
       } finally {
         setLoading(false);

@@ -1,15 +1,17 @@
+import { Button, Descriptions, message, PageHeader } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, PageHeader, Descriptions, Input, message } from 'antd';
-
+import React, { useEffect, useState } from 'react';
 import { withContextInitialized } from '../../components/hoc';
-import CompanyCard from '../../components/molecules/CompanyCard';
-import GenericList from '../../components/organisms/GenericList';
-import OverlaySpinner from '../../components/molecules/OverlaySpinner';
 import { usePersonInformation } from '../../components/hooks/usePersonInformation';
-
-import { Company } from '../../constants/types';
+import CompanyCard from '../../components/molecules/CompanyCard';
+import OverlaySpinner from '../../components/molecules/OverlaySpinner';
+import GenericList from '../../components/organisms/GenericList';
+import ProfileEdit from '../../components/organisms/ProfileEdit';
 import { ResponsiveListCard } from '../../constants';
+import { Company } from '../../constants/types';
+
+
+
 
 const PersonDetail = () => {
   const router = useRouter();
@@ -17,6 +19,7 @@ const PersonDetail = () => {
     router.query?.email as string,
     true
   );
+  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     load();
@@ -49,28 +52,34 @@ const PersonDetail = () => {
           >
             Visit website
           </Button>,
-          <Button type="default" onClick={() => {}}>
+          <Button type="default" onClick={() => setShowEdit(true)}>
             Edit
           </Button>,
         ]}
       >
-        {data && (
-          <Descriptions size="small" column={1}>
-            <Descriptions.Item label="Name">{data.name}</Descriptions.Item>
-            <Descriptions.Item label="Gender">{data.gender}</Descriptions.Item>
-            <Descriptions.Item label="Phone">{data.phone}</Descriptions.Item>
+        {showEdit ? (
+          <ProfileEdit save={save} data={data} setShowEdit={setShowEdit} />
+        ) : (
+          <>
+            {data && (
+              <Descriptions size="small" column={1}>
+                <Descriptions.Item label="Name">{data.name}</Descriptions.Item>
+                <Descriptions.Item label="Gender">{data.gender}</Descriptions.Item>
+                <Descriptions.Item label="Phone">{data.phone}</Descriptions.Item>
 
-            <Descriptions.Item label="Birthday">{data.birthday}</Descriptions.Item>
-          </Descriptions>
+                <Descriptions.Item label="Birthday">{data.birthday}</Descriptions.Item>
+              </Descriptions>
+            )}
+            <GenericList<Company>
+              loading={loading}
+              extra={ResponsiveListCard}
+              data={data && data.companyHistory}
+              ItemRenderer={({ item }: any) => <CompanyCard item={item} />}
+              handleLoadMore={() => {}}
+              hasMore={false}
+            />
+          </>
         )}
-        <GenericList<Company>
-          loading={loading}
-          extra={ResponsiveListCard}
-          data={data && data.companyHistory}
-          ItemRenderer={({ item }: any) => <CompanyCard item={item} />}
-          handleLoadMore={() => {}}
-          hasMore={false}
-        />
       </PageHeader>
     </>
   );

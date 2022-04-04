@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import { PageHeader } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
-
+import { PageHeader } from 'antd';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { withContextInitialized } from '../components/hoc';
 import { usePeople } from '../components/hooks/usePeople';
-
 import Header, { DEFAULT_PAGE_SIZE } from '../components/molecules/ListHeader';
-import GenericList from '../components/organisms/GenericList';
 import PersonDisplay from '../components/molecules/PersonDisplay';
-
-import { DISPLAY_MODE_CARD, Person } from '../constants/types';
-import { useRouter } from 'next/router';
+import GenericList from '../components/organisms/GenericList';
 import { ResponsiveListCard } from '../constants';
-import { useEffect } from 'react';
+import { DISPLAY_MODE_CARD, Person } from '../constants/types';
+
+
+
 
 const Home = () => {
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);

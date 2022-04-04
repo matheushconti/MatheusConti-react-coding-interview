@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { CheckOutlined } from '@ant-design/icons';
-import { Button, Layout, PageHeader, Col, Row } from 'antd';
-
+import { Button, Col, Layout, PageHeader, Row } from 'antd';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import Loading from '../components/atoms/Loading';
 import { usePeople } from '../components/hooks/usePeople';
 import { DEFAULT_PAGE_SIZE } from '../components/molecules/ListHeader';
+
 
 const Image = styled.img`
   height: 44px;
@@ -23,11 +22,11 @@ const Splash = () => {
     (async () => {
       await execute(DEFAULT_PAGE_SIZE);
     })();
-  });
+  },[]);
 
   useEffect(() => {
     if (initializedPeopleInfo) router.push('/home');
-  }, []);
+  }, [initializedPeopleInfo]);
 
   return (
     <PageHeader
